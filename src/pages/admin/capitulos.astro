@@ -1,0 +1,16 @@
+---
+import CreateEpisodeForm from "../../components/admin/CreateEpisodeForm.tsx";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Panel de Administración - Crear Episodios</title>
+  </head>
+  <body class="bg-gray-100 text-gray-900 p-8">
+    <h1 class="text-2xl font-bold mb-4">Añadir nuevo episodio</h1>
+    <div class="bg-white shadow rounded p-6 max-w-2xl">
+      <CreateEpisodeForm client:only="react" />
+    </div>
+  </body>
+</html>
