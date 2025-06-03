@@ -1,0 +1,25 @@
+---
+import BlockCard from "../components/BlockCard.astro"; // si ya lo creaste
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Learn To Go 🎧</title>
+  </head>
+  <body class="bg-gray-100 text-gray-900 p-8">
+    <h1 class="text-3xl font-bold mb-4">Bienvenido a Learn2Go</h1>
+    <p class="mb-6 text-gray-600">Explora bloques educativos y reproduce sus podcasts.</p>
+
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Aquí podrías mapear bloques desde Supabase en el futuro -->
+      <!-- Por ahora puedes poner algo fijo para testear -->
+      <BlockCard
+        slug="ia-900"
+        title="Curso Azure IA-900"
+        description="Prepárate para la certificación con estos episodios."
+      />
+    </div>
+  </body>
+</html>
