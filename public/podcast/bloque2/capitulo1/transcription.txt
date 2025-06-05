@@ -1,0 +1,89 @@
+Спикер 1: Saludos. Hoy vamos a meternos de lleno en esto de la visión por computadora de Azure. Tenemos aquí varios escenarios, preguntas clave, como si estuviéramos repasando juntos, ¿no? Para entender bien cuándo usar cada servicio.
+
+Спикер 2: Exacto. Es que a veces los nombres suenan parecidos, pero las aplicaciones son súper distintas. Así que la idea es aclarar bien las diferencias entre clasificación de imágenes, detección de objetos, Costume Vision, Azure Face, y también Form Recognizer.
+
+Спикер 1: Perfecto. A ver, arranquemos con algo básico. Imagínate una tienda online. Necesita ordenar sus fotos automáticamente, ¿no? Esto es ropa, esto es electrónica. ¿Qué usa ahí?
+
+Спикер 2: Mmm, para esa tarea específica, la de ponerle una etiqueta general a toda la foto, lo ideal es clasificación de imágenes.
+
+Спикер 1: Bien.
+
+Спикер 2: Es como decir, esta foto en general es de ropa. No buscan nada adentro, ni lee texto, solo la categoría global.
+
+Спикер 1: Entendido. La etiqueta grande. Ahora, ¿y si esa misma tienda quiere entrenar un modelo, pero, digamos, con sus propias fotos, productos muy específicos o con un estilo muy particular?
+
+Спикер 2: Ah, bueno, ahí es donde entra Azure Custom Vision. Justamente te permite eso. Construir y ajustar modelos usando tus propios datos.
+
+Спикер 1: O sea, si lo que viene pre-entrenado no me alcanza.
+
+Спикер 2: Exacto. Si tu caso es muy, muy específico, Custom Vision te da ese control para que el modelo aprenda de tus imágenes y sea más preciso para lo tuyo.
+
+Спикер 1: Tiene lógica, ¿sí? Ir de lo general a lo específico. Bueno, cambiemos de tercio. Ya no solo clasificar la foto entera, sino encontrar varias cosas adentro. Pensemos en una imagen aérea y hay que encontrar todos los coches y marcar dónde están.
+
+Спикер 2: Eso. Eso es detección de objetos. Ya no te dice solo, hay coches.
+
+Спикер 1: Claro.
+
+Спикер 2: Te dice dónde está cada uno, con sus coordenadas, qué es, coche, camión, lo que sea. Y también qué tan seguro está el modelo de que eso es un coche. Te da un nivel de confianza.
+
+Спикер 1: Mucho más detallado que la clasificación entonces.
+
+Спикер 2: Definitivamente.
+
+Спикер 1: Y hablando de detalles, ¿qué pasa con las caras? Si lo que nos interesa es analizar rostros, identificar gente o estimar edad de emoción.
+
+Спикер 2: Para eso tenemos Azure Face. Es un servicio súper especializado en análisis facial. Pero ojo, tiene sus cositas.
+
+Спикер 1: ¿Cómo qué?
+
+Спикер 2: Pues la precisión puede bajar si la iluminación no es buena, si la cara está muy de perfil o si algo la tapa.
+
+Спикер 1: Claro, como anteojes de sol o un sombrero, ¿no?
+
+Спикер 2: Exacto. Son los desafíos clásicos en visión computacional con rostros. Y es importante recordar que Face es para caras, ¿eh? No te va a leer el texto que hay en la imagen ni nada de eso.
+
+Спикер 1: Clarísimo. ¿Y si justamente necesitamos leer texto? Por ejemplo, sacar datos de facturas o recibos que escaneamos.
+
+Спикер 2: Si el texto está en documentos con cierta estructura, como una factura, AI Assured Form Recognizer es el camino. Ajá. Está hecho para entender esas estructuras, ¿viste? Y extraer pares clave valor, como total y el monto, o sacar info de tablas. Convierte el formulario en datos usables.
+
+Спикер 1: Y para usarlo, ¿qué necesito?
+
+Спикер 2: Bueno, como con otros servicios de Azure, necesitas la llave, la API key y el endpoint, que es como la dirección donde está el servicio, para autenticarte, básicamente.
+
+Спикер 1: Bien. ¿Y si el texto no está en un formulario, sino, no sé, en un cartel, en una foto de la calle?
+
+Спикер 2: Ah, para texto en general, impreso o hasta manuscrito en cualquier imagen, usamos OCR, reconocimiento óptico de caracteres. Sí, que de hecho, muchas veces es una capacidad dentro del servicio más grande. Azure Computer Vision, el Low CR, te devuelve el texto que detectó, las palabras, las líneas y dónde están en la imagen.
+
+Спикер 1: Y Computer Vision, además del Low CR, ¿qué más hace?
+
+Спикер 2: Pues, Computer Vision tiene modelos ya listos, pre-entrenados, para tareas más generales, como analizar qué hay en una imagen, describir la escena con palabras, cosas así.
+
+Спикер 1: Aquí viene la duda clásica, creo. ¿Cuándo uso Computer Vision y cuándo Custom Vision? Que suenan parecido.
+
+Спикер 2: La clavo, mira, es si necesitas o no entrenar con tus propios datos. Computer Vision te da soluciones rápidas y potentes para tareas comunes usando los modelos que ya tiene Microsoft.
+
+Спикер 1: Lo prehecho, digamos.
+
+Спикер 2: Exacto. Y Custom Vision es tu opción si esas tareas comunes no te sirven. Si necesitas algo súper especializado y estás dispuesto a entrenar un modelo con tus propias imágenes etiquetadas para clasificación o detección muy, muy a medida.
+
+Спикер 1: Vale. Ya me queda más claro. Nos falta una técnica, creo. Esa que suena como muy detallista de etiquetar cada píxel.
+
+Спикер 2: Ah, sí, la segmentación semántica. Es otro nivel de detalle. Imagínate pintar cada pedacito de la foto según lo que es. ¿Cómo? Todos los píxeles que son carretera, los pintas de gris. Los que son edificio, de azul. Los árboles, de verde. Entendés la imagen a nivel de píxel.
+
+Спикер 1: Wow, súper detallado. ¿Y eso para qué sirve?
+
+Спикер 2: Uf, para un montón de cosas. Conducción autónoma, por ejemplo. El coche necesita saber exactamente qué es cada zona del entorno. o en imágenes médicas para delimitar órganos o tumores con precisión. Es cuando necesitas entender la composición exacta de la escena.
+
+Спикер 1: Excelente resumen. Entonces, repasando rápido. Clasificación, la etiqueta general. Detección, encontrar y ubicar objetos. Custom vision, para entrenar yo mismo. Face, para caras. Form recognizer, para documentos. OCR, para leer texto en general. Y segmentación, para el detalle máximo, pixel a pixel.
+
+Спикер 2: Exactamente. Y creo que lo interesante de todo esto es pensar siempre en la granularidad de la información que necesitas sacar de la imagen.
+
+Спикер 1: El nivel de detalle decís.
+
+Спикер 2: Claro. ¿Te alcanza con saber qué es la imagen en general? ¿O necesitas encontrar cosas específicas adentro, o leer texto, o entender la escena a nivel de píxel? La elección correcta del servicio de Azure pasa por responder esa pregunta.
+
+Спикер 1: Buen punto. No es sólo cuál puede hacerlo, sino cuál es el más adecuado y eficiente para el problema que tenés.
+
+Спикер 2: Justo eso. Usar una herramienta súper potente como la segmentación, cuando con detección de objetos bastaba, puede ser complicarse de más y gastar recursos innecesariamente. Hay que ajustar la herramienta al problema.
+
+Спикер 1: Una reflexión genial para seguir profundizando. Muy útil este repaso.

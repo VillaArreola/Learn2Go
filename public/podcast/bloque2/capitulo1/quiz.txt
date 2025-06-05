@@ -1,0 +1,110 @@
+Hola bienvenidos este es el capitulo tres del podcast hacia la certifricacion azure  ia-900. 
+
+
+
+
+36. Una empresa quiere clasificar automáticamente fotos de sus productos en categorías como “ropa”, “electrónica” y “alimentos”. ¿Qué técnica de visión por computadora debería usar?
+
+A. Detección de anomalías → Incorrecto. Busca comportamientos inusuales, no categorías.
+B. Segmentación semántica → Incorrecto. Etiqueta píxeles individuales, no categorías generales.
+C. Clasificación de imágenes → ✅ Correcto. Clasifica la imagen completa en una categoría.
+D. OCR → Incorrecto. Se usa para leer texto en imágenes, no para clasificar.
+
+37. ¿Qué servicio de Azure permite entrenar un modelo de clasificación de imágenes con tus propias fotos?
+
+A. Azure Form Recognizer → Incorrecto. Extrae texto/tablas de documentos, no clasifica imágenes.
+B. Azure Custom Vision → ✅ Correcto. Permite entrenar modelos personalizados con tus datos.
+C. Azure Face → Incorrecto. Detecta y analiza rostros, no objetos generales.
+D. QnA Maker → Incorrecto. Crea bots de preguntas y respuestas, no trabaja con imágenes.
+
+38. Una empresa quiere ubicar varios vehículos en una imagen aérea y trazar un recuadro alrededor de cada uno. ¿Qué técnica debería usar?
+
+A. Clasificación de imágenes → Incorrecto. Solo categoriza imágenes completas.
+B. Detección de objetos → ✅ Correcto. Identifica y localiza múltiples objetos dentro de una imagen.
+C. OCR → Incorrecto. Detecta texto, no objetos.
+D. Detección de anomalías → Incorrecto. No ubica objetos visuales.
+
+39. ¿Qué devuelve un modelo de detección de objetos?
+
+A. Solo el tipo de objeto encontrado → Incorrecto. Eso sería una simple clasificación.
+B. Coordenadas del objeto, pero no la clase → Incorrecto. Faltaría la información más importante.
+C. Clase del objeto, coordenadas y nivel de confianza → ✅ Correcto. Es la salida estándar.
+D. Solo una etiqueta textual → Incorrecto. Eso es clasificación simple.
+
+40. ¿Qué servicio de Azure permite analizar imágenes para detectar rostros y estimar edad y emoción?
+
+A. Translator → Incorrecto. Solo traduce idiomas.
+B. Computer Vision (OCR) → Incorrecto. Detecta texto, no caras.
+C. Azure Face → ✅ Correcto. Ofrece detección facial y análisis de atributos.
+D. Language Understanding (LUIS) → Incorrecto. Trabaja con texto, no imágenes.
+
+41. ¿Qué factores pueden afectar la precisión de la detección facial con Azure Face?
+
+A. Solo el tamaño del archivo de imagen → Incorrecto. Es importante, pero no lo único.
+B. Solo el tipo de cámara utilizada → Incorrecto. No es el factor principal.
+C. Iluminación, ángulo del rostro y obstrucciones → ✅ Correcto. Estos elementos dificultan la detección.
+D. Resolución de pantalla del usuario → Incorrecto. No afecta la detección en la imagen enviada.
+
+42. Una empresa quiere leer el texto de recibos escaneados. ¿Qué servicio de Azure debería usar?
+
+A. Azure Form Recognizer → ✅ Correcto. Extrae texto estructurado como pares clave-valor y tablas.
+B. Azure Face → Incorrecto. No trabaja con texto.
+C. Azure Custom Vision → Incorrecto. Clasifica imágenes, no lee texto.
+D. Azure Bot Service → Incorrecto. Se usa para interfaces conversacionales.
+
+43. ¿Cuál es la diferencia entre Computer Vision y Custom Vision en Azure?
+
+A. Custom Vision es para traducción y Computer Vision para clasificación → Incorrecto. Ninguno traduce.
+B. Computer Vision analiza imágenes con modelos preentrenados; Custom Vision permite entrenar modelos propios → ✅ Correcto. Esa es la diferencia clave.
+C. Computer Vision es solo para OCR → Incorrecto. También detecta objetos y etiquetas.
+D. No hay diferencia, son lo mismo → Incorrecto. Son servicios distintos.
+
+44. ¿Qué técnica de visión por computadora etiqueta cada píxel de una imagen con una clase?
+
+A. Clasificación de imágenes → Incorrecto. Etiqueta la imagen completa.
+B. Segmentación semántica → ✅ Correcto. Cada píxel es clasificado en una clase.
+C. OCR → Incorrecto. Extrae texto, no clasifica píxeles.
+D. Face detection → Incorrecto. Solo detecta rostros, no clasifica píxeles.
+
+45. ¿Qué función cumple el OCR en el contexto de Azure?
+
+A. Traducir audio en tiempo real → Incorrecto. Eso lo hace Azure Speech.
+B. Detectar y extraer texto impreso o manuscrito en imágenes → ✅ Correcto. OCR significa “reconocimiento óptico de caracteres”.
+C. Clasificar imágenes médicas → Incorrecto. Para eso se usa Custom Vision.
+D. Identificar emociones humanas → Incorrecto. Eso lo hace Azure Face.
+
+46. ¿Qué necesitas para consumir el servicio Computer Vision desde una app cliente?
+
+A. Solo el nombre del modelo → Incorrecto. No es suficiente.
+B. El correo de quien entrena el modelo → Incorrecto. No se requiere.
+C. Una clave de API y un punto de conexión (endpoint) → ✅ Correcto. Son los datos de autenticación y conexión.
+D. El dataset original → Incorrecto. No es necesario para usar el servicio.
+
+47. ¿Qué puedes hacer con el servicio “Describe Image” de Computer Vision?
+
+A. Traducir texto en imágenes → Incorrecto. Para eso se usa OCR + Translator.
+B. Obtener una descripción automática del contenido visual de una imagen → ✅ Correcto. Resume la imagen en texto.
+C. Obtener ubicación GPS de la imagen → Incorrecto. No es una función soportada.
+D. Comparar dos imágenes → Incorrecto. No es su objetivo.
+
+48. ¿Qué opción describe mejor un escenario de uso de segmentación semántica?
+
+A. Agrupar documentos similares → Incorrecto. Es NLP, no visión.
+B. Resaltar cada tipo de objeto en una imagen con un color distinto → ✅ Correcto. Es un caso clásico de segmentación.
+C. Medir el tono de un texto → Incorrecto. Es análisis de sentimiento.
+D. Clasificar texto impreso → Incorrecto. Eso es OCR.
+
+49. ¿Cuál de las siguientes NO es una característica del servicio Azure Face?
+
+A. Detección de rostros
+B. Estimación de edad y emociones
+C. Reconocimiento facial
+D. Traducción de texto extraído → ✅ Correcto. Esa función no está en Azure Face.
+
+50. ¿Qué información devuelve el servicio OCR de Azure sobre el texto detectado?
+
+A. Solo el idioma
+B. Solo la fuente del texto
+C. Texto, líneas, palabras y sus coordenadas en la imagen → ✅ Correcto. Esa es la salida completa.
+D. Solo si la imagen contiene texto o no → Incorrecto. Devuelve mucho más detalle.
+

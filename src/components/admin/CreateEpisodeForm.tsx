@@ -4,20 +4,15 @@ import { supabase } from "../../lib/supabase";
 export default function CreateEpisodeForm() {
   const [blocks, setBlocks] = useState<any[]>([]);
   const [blockId, setBlockId] = useState("");
-  const [blockSlug, setBlockSlug] = useState(""); // Para la ruta del archivo
+  const [blockSlug, setBlockSlug] = useState("");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("");
   const [category, setCategory] = useState("");
   const [chapterNumber, setChapterNumber] = useState<number | "">("");
-  const [message, setMessage] = useState("");
 
-  // Nombres de archivos
-  const [audioPath, setAudioPath] = useState("");
-  const [transcriptionPath, setTranscriptionPath] = useState("");
-  const [tagsPath, setTagsPath] = useState("");
-  const [quizPath, setQuizPath] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchBlocks = async () => {
@@ -32,11 +27,10 @@ export default function CreateEpisodeForm() {
     fetchBlocks();
   }, []);
 
-  // Cuando seleccionás un bloque, guardás el slug para formar la ruta
   const handleBlockChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = blocks.find((b) => b.id === e.target.value);
     setBlockId(selected?.id || "");
-    setBlockSlug(selected?.name || ""); // "name" es tu slug tipo "ia-900"
+    setBlockSlug(selected?.name || "");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,7 +41,28 @@ export default function CreateEpisodeForm() {
       return;
     }
 
-    // Insertar episodio
+    // 1. Subir archivos localmente vía API
+    const formData = new FormData();
+    formData.append("slug", blockSlug);
+    formData.append("chapter", String(chapterNumber));
+
+    const audioFile = (document.querySelector("input[name='audio']") as HTMLInputElement)?.files?.[0];
+    const transcriptionFile = (document.querySelector("input[name='transcription']") as HTMLInputElement)?.files?.[0];
+    const tagsFile = (document.querySelector("input[name='tags']") as HTMLInputElement)?.files?.[0];
+    const quizFile = (document.querySelector("input[name='quiz']") as HTMLInputElement)?.files?.[0];
+
+    if (audioFile) formData.append("audio", audioFile);
+    if (transcriptionFile) formData.append("transcription", transcriptionFile);
+    if (tagsFile) formData.append("tags", tagsFile);
+    if (quizFile) formData.append("quiz", quizFile);
+
+    const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
+    if (!uploadRes.ok) {
+      setMessage("❌ Error al subir archivos");
+      return;
+    }
+
+    // 2. Guardar episodio en Supabase
     const { data: inserted, error } = await supabase
       .from("podcast_episodes")
       .insert([
@@ -64,39 +79,36 @@ export default function CreateEpisodeForm() {
       .single();
 
     if (error || !inserted) {
-      setMessage(`❌ Error al guardar episodio: ${error?.message}`);
+      setMessage("❌ Error al guardar episodio");
       return;
     }
 
     const episodeId = inserted.id;
-
-    // Archivos esperados
     const rutaBase = `/podcast/${blockSlug}/capitulo${chapterNumber}`;
+
     const filesToRegister = [
-      { name: audioPath, type: "audio" },
-      { name: transcriptionPath, type: "transcription" },
-      { name: tagsPath, type: "tags" },
-      { name: quizPath, type: "quiz" },
+      { file: audioFile, type: "audio" },
+      { file: transcriptionFile, type: "transcription" },
+      { file: tagsFile, type: "tags" },
+      { file: quizFile, type: "quiz" },
     ];
 
-    for (const { name, type } of filesToRegister) {
-      if (!name) continue;
-
-      const filePath = `${rutaBase}/${name}`;
-
+    for (const { file, type } of filesToRegister) {
+      if (!file) continue;
       await supabase.from("podcast_files").insert([
         {
           episode_id: episodeId,
           file_type: type,
-          file_path: filePath,
-          file_name: name,
-          file_size: 0,
-          mime_type: "", // opcional
+          file_path: `${rutaBase}/${file.name}`,
+          file_name: file.name,
+          file_size: file.size,
+          mime_type: file.type,
         },
       ]);
     }
 
-    setMessage("✅ Episodio guardado con rutas locales.");
+    setMessage("✅ Episodio y archivos guardados correctamente");
+
     // Limpiar
     setBlockId("");
     setBlockSlug("");
@@ -105,30 +117,20 @@ export default function CreateEpisodeForm() {
     setDuration("");
     setCategory("");
     setChapterNumber("");
-    setAudioPath("");
-    setTranscriptionPath("");
-    setTagsPath("");
-    setQuizPath("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <select className="border p-2 rounded" value={blockId} onChange={handleBlockChange}>
-        <option value="">Selecciona un bloque</option>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-xl mx-auto p-4 bg-white rounded shadow">
+      <h2 className="text-xl font-bold">Crear nuevo episodio</h2>
+
+      <select value={blockId} onChange={handleBlockChange} className="border p-2 rounded">
+        <option value="">-- Selecciona un bloque --</option>
         {blocks.map((b) => (
           <option key={b.id} value={b.id}>
             {b.title}
           </option>
         ))}
       </select>
-
-      <input
-        type="number"
-        placeholder="Número de capítulo"
-        className="border p-2 rounded"
-        value={chapterNumber}
-        onChange={(e) => setChapterNumber(Number(e.target.value))}
-      />
 
       <input
         type="text"
@@ -147,7 +149,7 @@ export default function CreateEpisodeForm() {
 
       <input
         type="text"
-        placeholder="Duración (ej: 15:30)"
+        placeholder="Duración (ej: 12:30)"
         className="border p-2 rounded"
         value={duration}
         onChange={(e) => setDuration(e.target.value)}
@@ -155,51 +157,31 @@ export default function CreateEpisodeForm() {
 
       <input
         type="text"
-        placeholder="Categoría (opcional)"
+        placeholder="Categoría"
         className="border p-2 rounded"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
       />
 
-      <h3 className="font-semibold mt-4">Archivos en /public/podcast/{blockSlug}/capitulo{chapterNumber}/</h3>
-
       <input
-        type="text"
-        placeholder="audio.mp3"
+        type="number"
+        placeholder="Número de capítulo"
         className="border p-2 rounded"
-        value={audioPath}
-        onChange={(e) => setAudioPath(e.target.value)}
+        value={chapterNumber}
+        onChange={(e) => setChapterNumber(Number(e.target.value))}
       />
 
-      <input
-        type="text"
-        placeholder="transcription.txt"
-        className="border p-2 rounded"
-        value={transcriptionPath}
-        onChange={(e) => setTranscriptionPath(e.target.value)}
-      />
+      <label className="font-semibold">Archivos:</label>
+      <input name="audio" type="file" accept=".mp3" />
+      <input name="transcription" type="file" accept=".txt" />
+      <input name="tags" type="file" accept=".txt" />
+      <input name="quiz" type="file" accept=".txt" />
 
-      <input
-        type="text"
-        placeholder="tags.txt"
-        className="border p-2 rounded"
-        value={tagsPath}
-        onChange={(e) => setTagsPath(e.target.value)}
-      />
-
-      <input
-        type="text"
-        placeholder="quiz.txt"
-        className="border p-2 rounded"
-        value={quizPath}
-        onChange={(e) => setQuizPath(e.target.value)}
-      />
-
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-        Crear Episodio con rutas locales
+      <button type="submit" className="bg-blue-600 text-white py-2 rounded">
+        Guardar episodio
       </button>
 
-      {message && <p className="text-sm mt-2">{message}</p>}
+      {message && <p className="mt-2 text-sm">{message}</p>}
     </form>
   );
 }

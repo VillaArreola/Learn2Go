@@ -1,0 +1,15 @@
+Classification de imagines
+Azure  Custom Vision
+Deteccion de Objetos
+Clase del objeto, coordenadas y nivel de confianza 
+Azure Face 
+Iluminación, ángulo del rostro y obstrucciones 
+Azure Form Recognizer 
+Detectar y extraer texto impreso o manuscrito en imágenes 
+Una clave de API y un punto de conexión (endpoint)
+Obtener una descripción automática del contenido visual de una imagen 
+Texto, líneas, palabras y sus coordenadas en la imagen
+Computer Vision analiza imágenes con modelos   preentrenados; Custom Vision permite entrenar modelos propios
+Segmentación semántica 
+Resaltar cada tipo de objeto en una imagen con un color distinto 
+Traducción de texto extraído
