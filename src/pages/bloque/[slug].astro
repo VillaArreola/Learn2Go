@@ -1,0 +1,44 @@
+---
+export const prerender = false;
+
+import { supabase } from "../../lib/supabase";
+import PlayerList from "../../components/PlayerList.tsx";
+import { Astro } from "astro";
+const { slug } = Astro.params;
+
+// Obtener el bloque
+const { data: blocks } = await supabase
+  .from("podcast_blocks")
+  .select("id, title, description, name")
+  .eq("name", slug)
+  .limit(1);
+
+const block = blocks?.[0];
+if (!block) throw new Error("Bloque no encontrado");
+
+// Obtener episodios
+const { data: episodes } = await supabase
+  .from("podcast_episodes")
+  .select("id, title, description, duration, chapter_number")
+  .eq("block_id", block.id)
+  .order("chapter_number", { ascending: true });
+
+// Obtener archivos relacionados
+const { data: files } = await supabase
+  .from("podcast_files")
+  .select("*")
+  .in("episode_id", episodes.map((ep) => ep.id));
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{block.title}</title>
+  </head>
+  <body class="p-8 bg-gray-100 text-gray-900">
+    <h1 class="text-3xl font-bold mb-2">{block.title}</h1>
+    <p class="mb-6 text-gray-700">{block.description}</p>
+
+    <PlayerList episodes={episodes} files={files} client:only="react" />
+  </body>
+</html>
