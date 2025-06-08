@@ -1,32 +1,58 @@
-// src/pages/api/upload.ts
-import type { APIRoute } from "astro";
-import fs from "fs";
-import path from "path";
+import { supabase } from "../../lib/supabase";
 
-export const prerender = false;
+export async function POST({ request }: { request: Request }) {
+  try {
+    const form = await request.formData();
 
-export const POST: APIRoute = async ({ request }) => {
-  const formData = await request.formData();
-  const slug = formData.get("slug")?.toString();
-  const chapter = formData.get("chapter")?.toString();
+    const slug = form.get("slug");
+    const chapter = form.get("chapter");
 
-  if (!slug || !chapter) {
-    return new Response("Faltan datos", { status: 400 });
-  }
-
-  const baseDir = path.resolve(`./public/podcast/${slug}/capitulo${chapter}`);
-  fs.mkdirSync(baseDir, { recursive: true });
-
-  const fileFields = ["audio", "transcription", "tags", "quiz"];
-
-  for (const field of fileFields) {
-    const file = formData.get(field) as File;
-    if (file && file.name) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const filePath = path.join(baseDir, file.name);
-      fs.writeFileSync(filePath, buffer);
+    if (!slug || !chapter || typeof slug !== "string" || typeof chapter !== "string") {
+      return new Response("❌ Faltan datos del episodio.", { status: 400 });
     }
-  }
 
-  return new Response("Archivos subidos", { status: 200 });
-};
+    const basePath = `${slug}/capitulo${chapter}`;
+
+    const files: { key: string; file: File | null }[] = [
+      { key: "audio", file: form.get("audio") as File },
+      { key: "transcription", file: form.get("transcription") as File },
+      { key: "tags", file: form.get("tags") as File },
+      { key: "quiz", file: form.get("quiz") as File },
+    ];
+
+    const uploadResults = [];
+
+    for (const { key, file } of files) {
+      if (!file || typeof file === "string") continue;
+
+      const filePath = `${basePath}/${file.name}`;
+
+      const { error } = await supabase
+        .storage
+        .from("podcast-files")
+        .upload(filePath, file, {
+          contentType: file.type || "application/octet-stream",
+          upsert: true,
+        });
+
+      if (error) {
+        console.error(`❌ Error al subir ${key}:`, error.message);
+        return new Response(`Error al subir ${key}`, { status: 500 });
+      }
+
+      uploadResults.push(filePath);
+    }
+
+    return new Response(JSON.stringify({
+      message: "✅ Archivos subidos correctamente",
+      files: uploadResults,
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+
+  } catch (err) {
+    console.error("❌ Error en upload:", err);
+    return new Response("Error interno", { status: 500 });
+  }
+}
